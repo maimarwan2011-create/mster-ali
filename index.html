@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأستاذ علي الركايبي - الخديوي | مدرس التاريخ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@200;300;400;600;700;900&family=Marhey:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="pharaoh-bg">
+
+    <!-- === مؤشر الماوس === -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- === شاشة التحميل === -->
+    <div id="loader">
+        <svg class="scarab-loader" viewBox="0 0 100 100">
+            <defs>
+                <linearGradient id="scarabGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ffd700"/>
+                    <stop offset="50%" stop-color="#d4af37"/>
+                    <stop offset="100%" stop-color="#8b6914"/>
+                </linearGradient>
+            </defs>
+            <ellipse cx="50" cy="55" rx="28" ry="22" fill="url(#scarabGrad)"/>
+            <ellipse cx="50" cy="50" rx="20" ry="15" fill="url(#scarabGrad)" opacity="0.8"/>
+            <line x1="50" y1="35" x2="50" y2="75" stroke="#8b6914" stroke-width="1.5"/>
+            <path d="M 25 50 Q 10 45 5 55 Q 15 60 25 55" fill="url(#scarabGrad)" opacity="0.7"/>
+            <path d="M 75 50 Q 90 45 95 55 Q 85 60 75 55" fill="url(#scarabGrad)" opacity="0.7"/>
+            <circle cx="50" cy="32" r="8" fill="url(#scarabGrad)"/>
+            <path d="M 30 45 L 20 40 M 30 55 L 18 55 M 30 65 L 22 70" stroke="#8b6914" stroke-width="2" fill="none"/>
+            <path d="M 70 45 L 80 40 M 70 55 L 82 55 M 70 65 L 78 70" stroke="#8b6914" stroke-width="2" fill="none"/>
+            <circle cx="42" cy="50" r="2" fill="#8b6914"/>
+            <circle cx="58" cy="50" r="2" fill="#8b6914"/>
+        </svg>
+        <div class="loader-text">يفتح الخديوي أبواب التاريخ...</div>
+    </div>
+
+    <!-- === شريط الإعلان المتحرك === -->
+    <div class="bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 py-2 overflow-hidden">
+        <div class="marquee">
+            <span class="mx-8 font-amiri text-sm" style="color: var(--night);">𓂀 رحلة عبر الزمن مع الخديوي 𓂀</span>
+            <span class="mx-8 font-amiri text-sm" style="color: var(--night);">𓃀 التاريخ حاضرٌ يُفهم ومستقبلٌ يُصنع 𓃀</span>
+            <span class="mx-8 font-amiri text-sm" style="color: var(--night);">𓋹 من الحضارة المصرية إلى العصر الحديث 𓋹</span>
+            <span class="mx-8 font-amiri text-sm" style="color: var(--night);">𓂀 سجل الآن وابدأ المغامرة 𓂀</span>
+        </div>
+    </div>
+
+    <!-- === شريط التنقل === -->
+    <nav class="sticky top-0 z-50 navbar-blur">
+        <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div class="w-14 h-14 rounded-full flex items-center justify-center" style="background: radial-gradient(circle at 30% 30%, var(--gold-bright), var(--gold-deep)); box-shadow: 0 0 20px var(--gold);">
+                        <span class="font-amiri text-2xl font-bold" style="color: var(--night);">𓂀</span>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="font-amiri text-xl gold-text font-bold">علي الركايبي</h2>
+                    <p class="text-xs" style="color: var(--gold);">الـخـديـوي · مدرس التاريخ</p>
+                </div>
+            </div>
+            <ul class="hidden lg:flex items-center gap-6 text-sm font-medium">
+                <li><a href="#home" class="hover:text-yellow-400 transition interactive" style="color: var(--papyrus);">الرئيسية</a></li>
+                <li><a href="#about" class="hover:text-yellow-400 transition interactive" style="color: var(--papyrus);">عن المستر</a></li>
+                <li><a href="#features" class="hover:text-yellow-400 transition interactive" style="color: var(--papyrus);">المميزات</a></li>
+                <li><a href="#civilizations" class="hover:text-yellow-400 transition interactive" style="color: var(--papyrus);">الحضارات</a></li>
+                <li><a href="#gallery" class="hover:text-yellow-400 transition interactive" style="color: var(--papyrus);">المعرض</a></li>
+                <li><a href="#timeline" class="hover:text-yellow-400 transition interactive" style="color: var(--papyrus);">خط الزمن</a></li>
+                <li><a href="#contact" class="hover:text-yellow-400 transition interactive" style="color: var(--papyrus);">سجل الآن</a></li>
+            </ul>
+            <a href="#contact" class="hidden lg:flex items-center gap-2 px-5 py-2 rounded-full font-bold text-sm transition hover:scale-105" style="background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--night);">
+                <i class="fas fa-graduation-cap"></i>
+                انضم إلينا
+            </a>
+            <button id="menu-btn" class="lg:hidden text-2xl" style="color: var(--gold);">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color: rgba(212, 175, 55, 0.2);">
+            <ul class="flex flex-col p-4 gap-3 text-sm">
+                <li><a href="#home" class="block py-2" style="color: var(--papyrus);">الرئيسية</a></li>
+                <li><a href="#about" class="block py-2" style="color: var(--papyrus);">عن المستر</a></li>
+                <li><a href="#features" class="block py-2" style="color: var(--papyrus);">المميزات</a></li>
+                <li><a href="#civilizations" class="block py-2" style="color: var(--papyrus);">الحضارات</a></li>
+                <li><a href="#gallery" class="block py-2" style="color: var(--papyrus);">المعرض</a></li>
+                <li><a href="#timeline" class="block py-2" style="color: var(--papyrus);">خط الزمن</a></li>
+                <li><a href="#contact" class="block py-2" style="color: var(--papyrus);">سجل الآن</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- === القسم الرئيسي === -->
+    <section id="home" class="relative min-h-screen flex items-center overflow-hidden hieroglyphs pt-8">
+        <canvas id="hero-canvas" class="absolute inset-0 z-0"></canvas>
+        
+        <div class="container mx-auto px-6 relative z-10 py-12">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- النص -->
+                <div class="text-center lg:text-right">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 interactive" style="background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.4); backdrop-filter: blur(10px);">
+                        <span class="text-lg">𓋹</span>
+                        <span class="text-sm font-medium" style="color: var(--gold-bright);">رحلة عبر دهاليز الزمن</span>
+                        <span class="text-lg">𓋹</span>
+                    </div>
+                    
+                    <h1 class="font-amiri text-5xl md:text-7xl font-bold mb-4 leading-tight">
+                        <span class="gold-text">الأستاذ</span><br>
+                        <span class="shimmer">علي الركايبي</span>
+                    </h1>
+                    
+                    <!-- اسم الخديوي مع الطاقية الصغيرة على حرف الياء -->
+                    <div class="inline-block mb-8">
+                        <div class="flex items-center gap-4 justify-center lg:justify-start mt-4">
+                            <div class="h-px w-16" style="background: linear-gradient(90deg, transparent, var(--gold));"></div>
+                            <p class="font-amiri text-3xl md:text-5xl shimmer">
+                                الـخـديـو<span class="relative inline-block">ي
+                                    <!-- طاقية الخديوي الحمراء الصغيرة -->
+                                    <svg class="fez-svg" viewBox="0 0 150 120">
+                                        <defs>
+                                            <linearGradient id="fezRed" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#9b1c1c"/>
+                                                <stop offset="50%" stop-color="#dc2626"/>
+                                                <stop offset="100%" stop-color="#7f1d1d"/>
+                                            </linearGradient>
+                                            <linearGradient id="goldBand" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                <stop offset="0%" stop-color="#ffd700"/>
+                                                <stop offset="50%" stop-color="#d4af37"/>
+                                                <stop offset="100%" stop-color="#8b6914"/>
+                                            </linearGradient>
+                                            <filter id="fezShadow">
+                                                <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.4"/>
+                                            </filter>
+                                        </defs>
+                                        
+                                        <g filter="url(#fezShadow)">
+                                            <!-- الشرابة السوداء -->
+                                            <path d="M 75 0 Q 70 10 75 25 Q 80 40 75 55" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+                                            <circle cx="75" cy="0" r="3" fill="url(#goldBand)"/>
+                                            <!-- جسم الطربوش -->
+                                            <path d="M 30 100 L 40 15 Q 75 -5 110 15 L 120 100 Z" fill="url(#fezRed)" stroke="#7f1d1d" stroke-width="2"/>
+                                            <!-- القاعدة السفلية -->
+                                            <ellipse cx="75" cy="100" rx="45" ry="8" fill="#7f1d1d"/>
+                                            <!-- شريط ذهبي في الأسفل -->
+                                            <rect x="30" y="88" width="90" height="15" fill="url(#goldBand)" rx="2"/>
+                                            <!-- نجمة ذهبية -->
+                                            <polygon points="75,25 78,32 85,32 80,37 82,44 75,40 68,44 70,37 65,32 72,32" fill="url(#goldBand)"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                            </p>
+                            <div class="h-px w-16" style="background: linear-gradient(90deg, var(--gold), transparent);"></div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-lg md:text-xl mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0" style="color: rgba(232, 213, 160, 0.85);">
+                        مدرس التاريخ للمرحلتين الإعدادية والثانوية. أنقل طلابي في رحلة عبر الزمن، من أهرامات الفراعنة إلى قصور الخديوي، حيث يُصبح التاريخ حكاية تُعاش لا مجرد درس يُحفظ.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                        <a href="#contact" class="group px-8 py-4 rounded-full font-bold transition-all hover:scale-105 relative overflow-hidden interactive" style="background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--night);">
+                            <span class="relative z-10">
+                                <i class="fas fa-graduation-cap ml-2"></i>
+                                ابدأ رحلتك الآن
+                            </span>
+                        </a>
+                        <a href="#civilizations" class="px-8 py-4 rounded-full font-bold transition-all hover:scale-105 border-2 interactive" style="border-color: var(--gold); color: var(--gold-bright);">
+                            <i class="fas fa-compass ml-2"></i>
+                            استكشف الحضارات
+                        </a>
+                    </div>
+
+                    <!-- إحصائيات تفاعلية -->
+                    <div class="grid grid-cols-3 gap-4 mt-12 max-w-md mx-auto lg:mx-0">
+                        <div class="counter-card royal-card rounded-2xl p-4 text-center">
+                            <div class="relative z-10">
+                                <div class="text-3xl font-bold gold-text" data-counter="15">0</div>
+                                <div class="text-xs mt-1" style="color: rgba(232, 213, 160, 0.7);">سنة خبرة</div>
+                            </div>
+                        </div>
+                        <div class="counter-card royal-card rounded-2xl p-4 text-center">
+                            <div class="relative z-10">
+                                <div class="text-3xl font-bold gold-text" data-counter="2000">0</div>
+                                <div class="text-xs mt-1" style="color: rgba(232, 213, 160, 0.7);">طالب وطالبة</div>
+                            </div>
+                        </div>
+                        <div class="counter-card royal-card rounded-2xl p-4 text-center">
+                            <div class="relative z-10">
+                                <div class="text-3xl font-bold gold-text" data-counter="98">0</div>
+                                <div class="text-xs mt-1" style="color: rgba(232, 213, 160, 0.7);">نسبة نجاح</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صورة المستر الحقيقية -->
+                <div class="flex justify-center items-center relative">
+                    <div class="relative">
+                        <!-- هالة -->
+                        <div class="absolute inset-0 rounded-full animate-glow" style="background: radial-gradient(circle, rgba(212, 175, 55, 0.4), transparent 70%); transform: scale(1.3);"></div>
+                        
+                        <!-- دوائر زخرفية -->
+                        <div class="absolute inset-0 rounded-full border-2 animate-spin" style="border-color: var(--gold); border-style: dashed; animation-duration: 30s; transform: scale(1.2);"></div>
+                        <div class="absolute inset-0 rounded-full border animate-spin" style="border-color: rgba(6, 182, 212, 0.4); animation-duration: 20s; animation-direction: reverse; transform: scale(1.35);"></div>
+                        
+                        <!-- رموز فرعونية تدور -->
+                        <div class="absolute inset-0 animate-spin" style="animation-duration: 25s; transform: scale(1.45);">
+                            <span class="absolute top-0 left-1/2 -translate-x-1/2 text-2xl" style="color: var(--gold);">𓂀</span>
+                            <span class="absolute bottom-0 left-1/2 -translate-x-1/2 text-2xl" style="color: var(--gold);">𓋹</span>
+                            <span class="absolute top-1/2 left-0 -translate-y-1/2 text-2xl" style="color: var(--gold);">𓃀</span>
+                            <span class="absolute top-1/2 right-0 -translate-y-1/2 text-2xl" style="color: var(--gold);">𓊽</span>
+                        </div>
+
+                        <!-- الصورة الحقيقية للمستر -->
+                        <div class="relative w-80 h-80 md:w-96 md:h-96 rounded-full overflow-hidden gold-frame animate-float" style="background: var(--night);">
+                            <img src="https://z-cdn-media.chatglm.cn/files/93c63a95-13fb-437e-b9f1-0cd6c12f5e26.png?auth_key=1890319655-5f36aff3ad6c4ce48b33ee7fdc26a9d9-0-7ae2825fbaeac7b2470aa6d467ec6673" alt="الأستاذ علي الركايبي" class="w-full h-full object-cover object-top" id="character-img">
+                        </div>
+
+                        <!-- شارة مدرس التاريخ -->
+                        <div class="absolute -bottom-4 -left-4 animate-float" style="animation-delay: 1s;">
+                            <div class="px-5 py-3 rounded-2xl" style="background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep)); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);">
+                                <p class="font-amiri text-sm font-bold flex items-center gap-2" style="color: var(--night);">
+                                    <i class="fas fa-scroll"></i>
+                                    مدرس التاريخ
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+           
+        </div>
+    </section>
+
+    <!-- === موجة فاصلة === -->
+    <div class="wave-divider" style="background: linear-gradient(180deg, var(--night) 0%, transparent 100%);">
+        <svg viewBox="0 0 1440 80" class="w-full h-full" preserveAspectRatio="none">
+            <path d="M0,40 Q360,80 720,40 T1440,40 L1440,80 L0,80 Z" fill="#0a0e1a"/>
+        </svg>
+    </div>
+
+    <!-- === قسم عن المستر === -->
+    <section id="about" class="py-24 relative overflow-hidden" style="background: var(--night-2);">
+        <div class="absolute top-0 right-0 text-9xl font-amiri opacity-5" style="color: var(--gold);">𓂀</div>
+        <div class="absolute bottom-0 left-0 text-9xl font-amiri opacity-5" style="color: var(--gold);">𓋹</div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <span class="text-2xl">𓊽</span>
+                    <span class="font-amiri text-4xl gold-text font-bold">عن الخديوي</span>
+                    <span class="text-2xl">𓊽</span>
+                </div>
+                <p class="text-lg max-w-2xl mx-auto" style="color: rgba(232, 213, 160, 0.7);">
+                    من حُبِّ التاريخ وُلدت الشغف، ومن الشغف وُلد الخديوي
+                </p>
+            </div>
+
+            <!-- بطاقات قابلة للقلب -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="flip-card interactive">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front royal-card p-8 flex flex-col items-center justify-center text-center">
+                            <div class="w-20 h-20 rounded-full flex items-center justify-center mb-4" style="background: linear-gradient(135deg, var(--gold), var(--gold-deep));">
+                                <i class="fas fa-feather-pointed text-3xl" style="color: var(--night);"></i>
+                            </div>
+                            <h3 class="font-amiri text-2xl font-bold mb-2" style="color: var(--gold-bright);">النبذة</h3>
+                            <p class="text-sm" style="color: rgba(232, 213, 160, 0.7);">اقلب البطاقة لمعرفة المزيد</p>
+                            <div class="mt-4 text-2xl" style="color: var(--gold);">𓋹</div>
+                        </div>
+                        <div class="flip-card-back p-8 flex flex-col justify-center" style="background: linear-gradient(135deg, var(--lapis), var(--lapis-deep)); border: 2px solid var(--gold);">
+                            <h3 class="font-amiri text-xl font-bold mb-3 text-center" style="color: var(--gold-bright);">الأستاذ علي الركايبي</h3>
+                            <p class="text-sm leading-relaxed text-center" style="color: var(--papyrus);">
+                                مدرس تاريخ مميّز بخبرة تزيد عن 15 عامًا للمرحلتين الإعدادية والثانوية. يؤمن بأن التاريخ ليس مجرد تواريخ وأحداث، بل حكاية حضارات وإنسان.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flip-card interactive">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front royal-card p-8 flex flex-col items-center justify-center text-center">
+                            <div class="w-20 h-20 rounded-full flex items-center justify-center mb-4" style="background: linear-gradient(135deg, var(--turquoise-bright), var(--turquoise));">
+                                <i class="fas fa-eye text-3xl" style="color: var(--papyrus);"></i>
+                            </div>
+                            <h3 class="font-amiri text-2xl font-bold mb-2" style="color: var(--gold-bright);">الرؤية</h3>
+                            <p class="text-sm" style="color: rgba(232, 213, 160, 0.7);">اقلب البطاقة لمعرفة المزيد</p>
+                            <div class="mt-4 text-2xl" style="color: var(--gold);">𓂀</div>
+                        </div>
+                        <div class="flip-card-back p-8 flex flex-col justify-center" style="background: linear-gradient(135deg, var(--turquoise), var(--lapis-deep)); border: 2px solid var(--gold);">
+                            <h3 class="font-amiri text-xl font-bold mb-3 text-center" style="color: var(--gold-bright);">رؤيتي</h3>
+                            <p class="text-sm leading-relaxed text-center" style="color: var(--papyrus);">
+                                صناعة جيل يعي تاريخه، فيفهم حاضره، ويصنع مستقبله. جيل لا يحفظ التاريخ بل يعيشه ويستخلص منه العبر.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flip-card interactive">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front royal-card p-8 flex flex-col items-center justify-center text-center">
+                            <div class="w-20 h-20 rounded-full flex items-center justify-center mb-4" style="background: linear-gradient(135deg, var(--amber), #b45309);">
+                                <i class="fas fa-bullseye text-3xl" style="color: var(--night);"></i>
+                            </div>
+                            <h3 class="font-amiri text-2xl font-bold mb-2" style="color: var(--gold-bright);">الرسالة</h3>
+                            <p class="text-sm" style="color: rgba(232, 213, 160, 0.7);">اقلب البطاقة لمعرفة المزيد</p>
+                            <div class="mt-4 text-2xl" style="color: var(--gold);">𓃀</div>
+                        </div>
+                        <div class="flip-card-back p-8 flex flex-col justify-center" style="background: linear-gradient(135deg, var(--amber), #92400e); border: 2px solid var(--gold);">
+                            <h3 class="font-amiri text-xl font-bold mb-3 text-center" style="color: var(--gold-bright);">رسالتي</h3>
+                            <p class="text-sm leading-relaxed text-center" style="color: var(--night);">
+                                تبسيط التاريخ وجعله ممتعًا عبر أساليب حديثة، وربط الأحداث بالواقع، واستخدام وسائل توضيحية وخرائط تجعل الطالب يعيش الحدث.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- اقتباس -->
+            <div class="mt-20 text-center max-w-3xl mx-auto p-8 royal-card rounded-3xl quote-card">
+                <div class="quote-number glyph-symbol">01</div>
+                <div class="quote-mark glyph-symbol" style="color: var(--gold);">✦</div>
+                <p class="font-amiri text-2xl md:text-3xl leading-relaxed shimmer quote-text">
+                    "التاريخ ليس ماضٍ يُدرس، بل حاضرٌ يُفهم، ومستقبلٌ يُصنع"
+                </p>
+                <p class="mt-4 text-sm" style="color: rgba(232, 213, 160, 0.6);">— الأستاذ علي الركايبي، الخديوي</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- === قسم المميزات === -->
+    <section id="features" class="py-24 relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <span class="text-2xl">𓆣</span>
+                    <span class="font-amiri text-4xl gold-text font-bold">مميزات الخديوي</span>
+                    <span class="text-2xl">𓆣</span>
+                </div>
+                <p class="text-lg max-w-2xl mx-auto" style="color: rgba(232, 213, 160, 0.7);">
+                    لماذا يختار الطلاب الخديوي رفيقًا في رحلتهم عبر التاريخ؟
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="royal-card rounded-2xl p-6 text-center interactive">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center transition-transform hover:rotate-12 hover:scale-110" style="background: linear-gradient(135deg, var(--gold), var(--gold-deep));">
+                        <i class="fas fa-map-location-dot text-3xl" style="color: var(--night);"></i>
+                    </div>
+                    <h3 class="font-amiri text-xl font-bold mb-2" style="color: var(--gold-bright);">خرائط تفاعلية</h3>
+                    <p class="text-sm leading-relaxed" style="color: rgba(232, 213, 160, 0.7);">
+                        خرائط تاريخية حية تتحرك وتتنفس، تأخذ الطالب في رحلة بصرية عبر المعارك والدول والحضارات.
+                    </p>
+                </div>
+
+                <div class="royal-card rounded-2xl p-6 text-center interactive">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center transition-transform hover:rotate-12 hover:scale-110" style="background: linear-gradient(135deg, var(--turquoise-bright), var(--turquoise));">
+                        <i class="fas fa-clock-rotate-left text-3xl" style="color: var(--papyrus);"></i>
+                    </div>
+                    <h3 class="font-amiri text-xl font-bold mb-2" style="color: var(--gold-bright);">خط زمني ممتع</h3>
+                    <p class="text-sm leading-relaxed" style="color: rgba(232, 213, 160, 0.7);">
+                        كل حدث تاريخي يُروى ضمن سياقه الزمني الكامل، فيرى الطالب الصورة كاملة لا مجزأة.
+                    </p>
+                </div>
+
+                <div class="royal-card rounded-2xl p-6 text-center interactive">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center transition-transform hover:rotate-12 hover:scale-110" style="background: linear-gradient(135deg, var(--ruby), var(--amber));">
+                        <i class="fas fa-chalkboard-user text-3xl" style="color: var(--gold-bright);"></i>
+                    </div>
+                    <h3 class="font-amiri text-xl font-bold mb-2" style="color: var(--gold-bright);">شرح بالقصص</h3>
+                    <p class="text-sm leading-relaxed" style="color: rgba(232, 213, 160, 0.7);">
+                        كل درس يتحول إلى قصة مشوقة تُروى بأسلوب سردي آسر، يعلق في الذاكرة ولا يُنسى.
+                    </p>
+                </div>
+
+                <div class="royal-card rounded-2xl p-6 text-center interactive">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center transition-transform hover:rotate-12 hover:scale-110" style="background: linear-gradient(135deg, var(--gold-bright), var(--amber));">
+                        <i class="fas fa-file-pen text-3xl" style="color: var(--night);"></i>
+                    </div>
+                    <h3 class="font-amiri text-xl font-bold mb-2" style="color: var(--gold-bright);">ملخصات ذهبية</h3>
+                    <p class="text-sm leading-relaxed" style="color: rgba(232, 213, 160, 0.7);">
+                        ملخصات مركّزة تشبه أوراق البردي الذهبية، تجمع كل ما يحتاجه الطالب في صفحات قليلة.
+                    </p>
+                </div>
+
+                <div class="royal-card rounded-2xl p-6 text-center interactive">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center transition-transform hover:rotate-12 hover:scale-110" style="background: linear-gradient(135deg, var(--lapis), var(--lapis-deep));">
+                        <i class="fas fa-mobile-screen text-3xl" style="color: var(--gold-bright);"></i>
+                    </div>
+                    <h3 class="font-amiri text-xl font-bold mb-2" style="color: var(--gold-bright);">محتوى رقمي</h3>
+                    <p class="text-sm leading-relaxed" style="color: rgba(232, 213, 160, 0.7);">
+                        فيديوهات، عروض تفاعلية، ومراجعات إلكترونية تجعل التعلم ممتعًا في أي وقت ومن أي مكان.
+                    </p>
+                </div>
+
+                <div class="royal-card rounded-2xl p-6 text-center interactive">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center transition-transform hover:rotate-12 hover:scale-110" style="background: linear-gradient(135deg, var(--gold-deep), var(--gold-dark));">
+                        <i class="fas fa-trophy text-3xl" style="color: var(--gold-bright);"></i>
+                    </div>
+                    <h3 class="font-amiri text-xl font-bold mb-2" style="color: var(--gold-bright);">نتائج متميزة</h3>
+                    <p class="text-sm leading-relaxed" style="color: rgba(232, 213, 160, 0.7);">
+                        تاريخ حافل بالنجاحات والتفوق، حيث يحقق طلاب الخديوي أعلى الدرجات في التاريخ سنويًا.
+                    </p>
+                </div>
+
+                <div class="royal-card rounded-2xl p-6 text-center interactive">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center transition-transform hover:rotate-12 hover:scale-110" style="background: linear-gradient(135deg, var(--turquoise), var(--lapis));">
+                        <i class="fas fa-people-group text-3xl" style="color: var(--gold-bright);"></i>
+                    </div>
+                    <h3 class="font-amiri text-xl font-bold mb-2" style="color: var(--gold-bright);">مجموعات صغيرة</h3>
+                    <p class="text-sm leading-relaxed" style="color: rgba(232, 213, 160, 0.7);">
+                        متابعة فردية لكل طالب ضمن مجموعات صغيرة تضمن تفاعل الجميع وفهم كل التفاصيل.
+                    </p>
+                </div>
+
+                <div class="royal-card rounded-2xl p-6 text-center interactive">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center transition-transform hover:rotate-12 hover:scale-110" style="background: linear-gradient(135deg, var(--amber), var(--ruby));">
+                        <i class="fas fa-lightbulb text-3xl" style="color: var(--gold-bright);"></i>
+                    </div>
+                    <h3 class="font-amiri text-xl font-bold mb-2" style="color: var(--gold-bright);">عبر ودروس</h3>
+                    <p class="text-sm leading-relaxed" style="color: rgba(232, 213, 160, 0.7);">
+                        لا تاريخ بلا عبرة، كل حادثة تاريخية تُختم بدروس وعبر تُضيء طريق الطالب في حياته.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === قسم الحضارات التفاعلي === -->
+    <section id="civilizations" class="py-24 relative overflow-hidden" style="background: linear-gradient(180deg, var(--night-2), var(--night));">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <span class="text-2xl">𓊪</span>
+                    <span class="font-amiri text-4xl gold-text font-bold">عجلة الحضارات</span>
+                    <span class="text-2xl">𓊪</span>
+                </div>
+                <p class="text-lg max-w-2xl mx-auto" style="color: rgba(232, 213, 160, 0.7);">
+                    اختر حضارة لتكتشف أسرارها مع الخديوي
+                </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="civ-btn px-6 py-3 rounded-full font-bold transition-all interactive active" data-civ="egypt" style="background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--night);">
+                    <span class="ml-2">𓂀</span> مصر القديمة
+                </button>
+                <button class="civ-btn px-6 py-3 rounded-full font-bold transition-all interactive" data-civ="greek" style="background: rgba(14, 116, 144, 0.2); border: 1px solid var(--turquoise); color: var(--turquoise-bright);">
+                    <span class="ml-2">𓊽</span> الإغريق والرومان
+                </button>
+                <button class="civ-btn px-6 py-3 rounded-full font-bold transition-all interactive" data-civ="islamic" style="background: rgba(155, 28, 28, 0.2); border: 1px solid var(--ruby); color: #f87171;">
+                    <span class="ml-2">𓋹</span> الحضارة الإسلامية
+                </button>
+                <button class="civ-btn px-6 py-3 rounded-full font-bold transition-all interactive" data-civ="modern" style="background: rgba(30, 58, 138, 0.2); border: 1px solid var(--lapis); color: #60a5fa;">
+                    <span class="ml-2">𓃀</span> العصر الحديث
+                </button>
+            </div>
+
+            <div id="civ-content" class="max-w-5xl mx-auto">
+                <div class="civ-panel" data-panel="egypt">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="overflow-hidden rounded-2xl gold-frame group">
+                            <img src="https://z-cdn-media.chatglm.cn/files/1cc39a32-07b9-412b-b78f-7f0e667dae5d.png?auth_key=1890257595-7f4a22c4270442abab193a17ee34e134-0-88b7c287be5cae24fed2c4af14e27bcf" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="مصر القديمة">
+                        </div>
+                        <div>
+                            <h3 class="font-amiri text-3xl font-bold mb-4 gold-text">الحضارة المصرية القديمة</h3>
+                            <p class="mb-6 leading-relaxed" style="color: rgba(232, 213, 160, 0.85);">
+                                رحلة شائقة عبر أهرامات الجيزة ومعابد الكرنك وأبو الهول. نكتشف معًا أسرار الفراعنة، وعلوم الهندسة والطب والفلك التي سبقت عصرها بآلاف السنين.
+                            </p>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-circle-check" style="color: var(--gold);"></i>
+                                    <span style="color: var(--papyrus);">تأسيس الدولة الفرعونية وتوحيد القطرين</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-circle-check" style="color: var(--gold);"></i>
+                                    <span style="color: var(--papyrus);">بناء الأهرامات وأسرارها</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-circle-check" style="color: var(--gold);"></i>
+                                    <span style="color: var(--papyrus);">الحضارة والعلوم في عصر الفراعنة</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-circle-check" style="color: var(--gold);"></i>
+                                    <span style="color: var(--papyrus);">الديانة المصرية القديمة</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === المعرض التاريخي === -->
+    <section id="gallery" class="py-24 relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <span class="text-2xl">𓆣</span>
+                    <span class="font-amiri text-4xl gold-text font-bold">المعرض التاريخي</span>
+                    <span class="text-2xl">𓆣</span>
+                </div>
+                <p class="text-lg max-w-2xl mx-auto" style="color: rgba(232, 213, 160, 0.7);">
+                    صور فخمة تنقل الطالب إلى قلب الحدث التاريخي
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- صورة 1: أهرامات مصر -->
+                <div class="royal-card rounded-2xl overflow-hidden interactive group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://z-cdn-media.chatglm.cn/files/f561bc14-deaf-4868-af43-e41566ff3244.png?auth_key=1890318742-2e9e8f4aa1bc405d828003e3ac451d0a-0-745ea6b3b5c5db7ae85d261553de6979" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" alt="أهرامات مصر">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 right-0 p-4 text-right">
+                            <h4 class="font-amiri text-xl font-bold" style="color: var(--gold-bright);">أهرامات الجيزة</h4>
+                            <p class="text-xs" style="color: rgba(232, 213, 160, 0.7);">عجائب الدنيا القديمة</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صورة 2: عمارة إسلامية -->
+                <div class="royal-card rounded-2xl overflow-hidden interactive group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://z-cdn-media.chatglm.cn/files/eedc8471-d282-4458-8e3e-6ac405fbcdb1.png?auth_key=1890318742-fb2e2bfc284f4280ace9389ac122973e-0-1a71882188a166fe0b2d194bd2ef0fdd" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" alt="العمارة الإسلامية">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 right-0 p-4 text-right">
+                            <h4 class="font-amiri text-xl font-bold" style="color: var(--gold-bright);">العمارة الإسلامية</h4>
+                            <p class="text-xs" style="color: rgba(232, 213, 160, 0.7);">فنون وزخارف</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صورة 3: مومياوات وآثار -->
+                <div class="royal-card rounded-2xl overflow-hidden interactive group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://z-cdn-media.chatglm.cn/files/63c4ab56-277c-4c88-a364-c8e566c12fb6.png?auth_key=1890318742-c87ded66973b43ba88917655c87cc710-0-20ee7d9b880ed1ccd791b093738d2264" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" alt="آثار فرعونية">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 right-0 p-4 text-right">
+                            <h4 class="font-amiri text-xl font-bold" style="color: var(--gold-bright);">الآثار والمومياوات</h4>
+                            <p class="text-xs" style="color: rgba(232, 213, 160, 0.7);">كنوز الفراعنة</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صورة 4: معبد بالليل -->
+                <div class="royal-card rounded-2xl overflow-hidden interactive group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://z-cdn-media.chatglm.cn/files/c4854027-b7ca-4691-abf4-abe264f15336.png?auth_key=1890318742-d845b8a45002411984f5f5aed24a7a62-0-b8c7ab5c34b0b9390451f69cb6f55b05" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" alt="معبد بالليل">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 right-0 p-4 text-right">
+                            <h4 class="font-amiri text-xl font-bold" style="color: var(--gold-bright);">معبد القرنك</h4>
+                            <p class="text-xs" style="color: rgba(232, 213, 160, 0.7);">رهبة التاريخ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صورة 5: قلعة -->
+                <div class="royal-card rounded-2xl overflow-hidden interactive group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://z-cdn-media.chatglm.cn/files/77c9ff77-2fe0-45e5-875a-9460731ef502.png?auth_key=1890318742-c3da93d0e1e2410aa354eaa44e7de583-0-3c72045cc5f9328f9541b712d4cb3e48" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" alt="قلعة قديمة">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 right-0 p-4 text-right">
+                            <h4 class="font-amiri text-xl font-bold" style="color: var(--gold-bright);">قلعة حصينة</h4>
+                            <p class="text-xs" style="color: rgba(232, 213, 160, 0.7);">العصور الوسطى</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صورة 6: خريطة العالم القديم -->
+                <div class="royal-card rounded-2xl overflow-hidden interactive group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://z-cdn-media.chatglm.cn/files/f89babb1-88ef-450e-98f1-e159dcc5c9e0.png?auth_key=1890318742-2f3a8cbf3c434996bfceb08ac962d8d6-0-f4b2ab858dcd7f388e8547769609cb81" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" alt="خريطة العالم القديم">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 right-0 p-4 text-right">
+                            <h4 class="font-amiri text-xl font-bold" style="color: var(--gold-bright);">خريطة العالم</h4>
+                            <p class="text-xs" style="color: rgba(232, 213, 160, 0.7);">عصر الاكتشافات</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === خط الزمن === -->
+    <section id="timeline" class="py-24 relative overflow-hidden" style="background: var(--night-2);">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <span class="text-2xl">𓋹</span>
+                    <span class="font-amiri text-4xl gold-text font-bold">رحلة عبر الزمن</span>
+                    <span class="text-2xl">𓋹</span>
+                </div>
+                <p class="text-lg max-w-2xl mx-auto" style="color: rgba(232, 213, 160, 0.7);">
+                    تنقل الخديوي بك عبر أهم العصور التاريخية
+                </p>
+            </div>
+
+            <div class="relative max-w-4xl mx-auto">
+                <div class="absolute right-1/2 transform translate-x-1/2 w-1 h-full" style="background: linear-gradient(180deg, transparent, var(--gold), var(--gold), transparent);"></div>
+
+                <div class="relative flex items-center justify-between mb-12">
+                    <div class="w-5/12"></div>
+                    <div class="timeline-dot w-4 h-4 rounded-full z-10" style="background: var(--gold);"></div>
+                    <div class="w-5/12 royal-card rounded-2xl p-6 interactive">
+                        <span class="text-xs px-3 py-1 rounded-full" style="background: rgba(212, 175, 55, 0.2); color: var(--gold-bright);">عصر ما قبل الأسرات</span>
+                        <h4 class="font-amiri text-xl font-bold mt-2" style="color: var(--gold-bright);">الحضارة المصرية القديمة</h4>
+                        <p class="text-xs mt-2" style="color: rgba(232, 213, 160, 0.7);">من توحيد مصر حتى نهاية الفراعنة، عصور الذهب والحضارة.</p>
+                    </div>
+                </div>
+
+                <div class="relative flex items-center justify-between mb-12">
+                    <div class="w-5/12 royal-card rounded-2xl p-6 text-left interactive">
+                        <span class="text-xs px-3 py-1 rounded-full" style="background: rgba(14, 116, 144, 0.2); color: var(--turquoise-bright);">العصور الكلاسيكية</span>
+                        <h4 class="font-amiri text-xl font-bold mt-2" style="color: var(--gold-bright);">الإغريق والرومان</h4>
+                        <p class="text-xs mt-2" style="color: rgba(232, 213, 160, 0.7);">الفلسفة والديمقراطية والإمبراطوريات العظيمة.</p>
+                    </div>
+                    <div class="timeline-dot w-4 h-4 rounded-full z-10" style="background: var(--turquoise-bright);"></div>
+                    <div class="w-5/12"></div>
+                </div>
+
+                <div class="relative flex items-center justify-between mb-12">
+                    <div class="w-5/12"></div>
+                    <div class="timeline-dot w-4 h-4 rounded-full z-10" style="background: var(--ruby);"></div>
+                    <div class="w-5/12 royal-card rounded-2xl p-6 interactive">
+                        <span class="text-xs px-3 py-1 rounded-full" style="background: rgba(155, 28, 28, 0.2); color: #f87171;">العصور الوسطى</span>
+                        <h4 class="font-amiri text-xl font-bold mt-2" style="color: var(--gold-bright);">الحضارة الإسلامية</h4>
+                        <p class="text-xs mt-2" style="color: rgba(232, 213, 160, 0.7);">الفتوحات والعلم والعمارة والطب والفلك.</p>
+                    </div>
+                </div>
+
+                <div class="relative flex items-center justify-between mb-12">
+                    <div class="w-5/12 royal-card rounded-2xl p-6 text-left interactive">
+                        <span class="text-xs px-3 py-1 rounded-full" style="background: rgba(217, 119, 6, 0.2); color: var(--amber);">العصر الحديث</span>
+                        <h4 class="font-amiri text-xl font-bold mt-2" style="color: var(--gold-bright);">عصر النهضة والاكتشافات</h4>
+                        <p class="text-xs mt-2" style="color: rgba(232, 213, 160, 0.7);">اكتشاف العالم الجديد والثورات الصناعية.</p>
+                    </div>
+                    <div class="timeline-dot w-4 h-4 rounded-full z-10" style="background: var(--amber);"></div>
+                    <div class="w-5/12"></div>
+                </div>
+
+                <div class="relative flex items-center justify-between">
+                    <div class="w-5/12"></div>
+                    <div class="timeline-dot w-4 h-4 rounded-full z-10" style="background: var(--lapis);"></div>
+                    <div class="w-5/12 royal-card rounded-2xl p-6 interactive">
+                        <span class="text-xs px-3 py-1 rounded-full" style="background: rgba(30, 58, 138, 0.4); color: #60a5fa;">التاريخ المعاصر</span>
+                        <h4 class="font-amiri text-xl font-bold mt-2" style="color: var(--gold-bright);">الحربان العالميتان وما بعدهما</h4>
+                        <p class="text-xs mt-2" style="color: rgba(232, 213, 160, 0.7);">القرن العشرون وتشكل العالم الحديث.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === آراء الطلاب === -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <span class="text-2xl">𓊪</span>
+                    <span class="font-amiri text-4xl gold-text font-bold">آراء الطلاب</span>
+                    <span class="text-2xl">𓊪</span>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="royal-card rounded-2xl p-6 interactive">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold" style="background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--night);">أ</div>
+                        <div>
+                            <h4 class="font-bold" style="color: var(--gold-bright);">أحمد محمود</h4>
+                            <p class="text-xs" style="color: rgba(232, 213, 160, 0.6);">الصف الثالث الثانوي</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-1 mb-3" style="color: var(--gold-bright);">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-sm leading-relaxed" style="color: rgba(232, 213, 160, 0.8);">
+                        "المستر علي غيّر نظرتي للتاريخ تمامًا. كنت أشوفه مادة حفظ، بقيت أشوفه قصص وحكايات. حصلت على الدرجة النهائية!"
+                    </p>
+                </div>
+
+                <div class="royal-card rounded-2xl p-6 interactive">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold" style="background: linear-gradient(135deg, var(--ruby), var(--amber)); color: var(--gold-bright);">س</div>
+                        <div>
+                            <h4 class="font-bold" style="color: var(--gold-bright);">سارة علي</h4>
+                            <p class="text-xs" style="color: rgba(232, 213, 160, 0.6);">الصف الثاني الإعدادي</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-1 mb-3" style="color: var(--gold-bright);">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-sm leading-relaxed" style="color: rgba(232, 213, 160, 0.8);">
+                        "طريقة المستر في الشرح رائعة، يرسم لنا الخرائط ويحكي القصص كأننا عشنا في الزمن ده. بنتظر حصة التاريخ بفارغ الصبر."
+                    </p>
+                </div>
+
+                <div class="royal-card rounded-2xl p-6 interactive">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold" style="background: linear-gradient(135deg, var(--turquoise), var(--lapis)); color: var(--gold-bright);">م</div>
+                        <div>
+                            <h4 class="font-bold" style="color: var(--gold-bright);">محمد إبراهيم</h4>
+                            <p class="text-xs" style="color: rgba(232, 213, 160, 0.6);">الصف الأول الثانوي</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-1 mb-3" style="color: var(--gold-bright);">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-sm leading-relaxed" style="color: rgba(232, 213, 160, 0.8);">
+                        "الخديوي مش مجرد مدرس، هو صديق ومرشد. بيعلمنا التاريخ وبيعلمنا إزاي نفكر ونستخلص العبر. ربنا يباركله."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === تواصل معنا === -->
+    <section id="contact" class="py-24 relative overflow-hidden" style="background: linear-gradient(180deg, var(--night), var(--night-2));">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <span class="text-2xl">𓂀</span>
+                    <span class="font-amiri text-4xl gold-text font-bold">انضم إلى الرحلة</span>
+                    <span class="text-2xl">𓂀</span>
+                </div>
+                <p class="text-lg max-w-2xl mx-auto" style="color: rgba(232, 213, 160, 0.7);">
+                    سجل الآن وابدأ رحلتك مع الخديوي عبر دهاليز الزمن
+                </p>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="royal-card rounded-3xl p-8 md:p-12">
+                    <form class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold mb-2" style="color: var(--gold-bright);">اسم الطالب</label>
+                            <input type="text" placeholder="اكتب اسمك الكامل" class="w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition" style="border-color: rgba(212, 175, 55, 0.3); background: rgba(232, 213, 160, 0.05); color: var(--papyrus);">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-2" style="color: var(--gold-bright);">رقم الهاتف</label>
+                            <input type="tel" placeholder="01xxxxxxxxx" class="w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition" style="border-color: rgba(212, 175, 55, 0.3); background: rgba(232, 213, 160, 0.05); color: var(--papyrus);">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-2" style="color: var(--gold-bright);">المرحلة الدراسية</label>
+                            <select class="w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition" style="border-color: rgba(212, 175, 55, 0.3); background: rgba(232, 213, 160, 0.05); color: var(--papyrus);">
+                                <option style="background: var(--night-2);">إعدادي - الصف الأول</option>
+                                <option style="background: var(--night-2);">إعدادي - الصف الثاني</option>
+                                <option style="background: var(--night-2);">إعدادي - الصف الثالث</option>
+                                <option style="background: var(--night-2);">ثانوي - الصف الأول</option>
+                                <option style="background: var(--night-2);">ثانوي - الصف الثاني</option>
+                                <option style="background: var(--night-2);">ثانوي - الصف الثالث</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-2" style="color: var(--gold-bright);">نوع الاشتراك</label>
+                            <select class="w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition" style="border-color: rgba(212, 175, 55, 0.3); background: rgba(232, 213, 160, 0.05); color: var(--papyrus);">
+                                <option style="background: var(--night-2);">حصص أونلاين</option>
+                                <option style="background: var(--night-2);">حصص حضورية</option>
+                                <option style="background: var(--night-2);">مجموعة صغيرة</option>
+                                <option style="background: var(--night-2);">متابعة فردية</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold mb-2" style="color: var(--gold-bright);">رسالتك</label>
+                            <textarea rows="4" placeholder="اكتب أي استفسار أو ملاحظة" class="w-full px-4 py-3 rounded-lg border-2 focus:outline-none transition resize-none" style="border-color: rgba(212, 175, 55, 0.3); background: rgba(232, 213, 160, 0.05); color: var(--papyrus);"></textarea>
+                        </div>
+                        <div class="md:col-span-2 text-center">
+                            <button type="submit" class="px-12 py-4 rounded-full font-bold text-lg transition-all hover:scale-105 interactive" style="background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep)); color: var(--night); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);">
+                                <i class="fas fa-paper-plane ml-2"></i>
+                                إرسال التسجيل
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6 mt-12">
+                    <div class="text-center royal-card rounded-2xl p-6 interactive">
+                        <div class="w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--gold), var(--gold-deep));">
+                            <i class="fas fa-phone text-xl" style="color: var(--night);"></i>
+                        </div>
+                        <h4 class="font-bold mb-1" style="color: var(--gold-bright);">اتصل بنا</h4>
+                        <p class="text-sm" style="color: rgba(232, 213, 160, 0.7);">01xxxxxxxxx</p>
+                    </div>
+                    <div class="text-center royal-card rounded-2xl p-6 interactive">
+                        <div class="w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--ruby), var(--amber));">
+                            <i class="fas fa-envelope text-xl" style="color: var(--gold-bright);"></i>
+                        </div>
+                        <h4 class="font-bold mb-1" style="color: var(--gold-bright);">راسلنا</h4>
+                        <p class="text-sm" style="color: rgba(232, 213, 160, 0.7);">info@alkhedewi.com</p>
+                    </div>
+                    <div class="text-center royal-card rounded-2xl p-6 interactive">
+                        <div class="w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--turquoise), var(--lapis));">
+                            <i class="fas fa-location-dot text-xl" style="color: var(--gold-bright);"></i>
+                        </div>
+                        <h4 class="font-bold mb-1" style="color: var(--gold-bright);">موقعنا</h4>
+                        <p class="text-sm" style="color: rgba(232, 213, 160, 0.7);">القاهرة، مصر</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-4 mt-12">
+                    <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 royal-card interactive" style="color: var(--gold-bright);">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 royal-card interactive" style="color: var(--gold-bright);">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 royal-card interactive" style="color: var(--gold-bright);">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 royal-card interactive" style="color: var(--gold-bright);">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 royal-card interactive" style="color: var(--gold-bright);">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === الفوتر === -->
+    <footer class="py-12 border-t" style="background: var(--night); border-color: rgba(212, 175, 55, 0.2);">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background: radial-gradient(circle at 30% 30%, var(--gold-bright), var(--gold-deep));">
+                        <span class="font-amiri text-2xl font-bold" style="color: var(--night);">𓂀</span>
+                    </div>
+                    <div>
+                        <h3 class="font-amiri text-2xl gold-text font-bold">علي الركايبي</h3>
+                        <p class="text-xs" style="color: var(--gold);">الخديوي · مدرس التاريخ</p>
+                    </div>
+                </div>
+                <p class="text-sm mb-6 max-w-md mx-auto" style="color: rgba(232, 213, 160, 0.6);">
+                    "من لا يعرف تاريخه، لا يعرف حاضره، ولا يصنع مستقبله"
+                </p>
+                <div class="flex justify-center gap-2 text-sm mb-6" style="color: rgba(232, 213, 160, 0.5);">
+                    <a href="#home" class="hover:text-yellow-400 transition px-2 interactive">الرئيسية</a>
+                    <span>·</span>
+                    <a href="#about" class="hover:text-yellow-400 transition px-2 interactive">عن المستر</a>
+                    <span>·</span>
+                    <a href="#features" class="hover:text-yellow-400 transition px-2 interactive">المميزات</a>
+                    <span>·</span>
+                    <a href="#gallery" class="hover:text-yellow-400 transition px-2 interactive">المعرض</a>
+                    <span>·</span>
+                    <a href="#contact" class="hover:text-yellow-400 transition px-2 interactive">تواصل</a>
+                </div>
+                <p class="text-xs" style="color: rgba(232, 213, 160, 0.4);">
+                    © 2025 الأستاذ علي الركايبي - الخديوي. جميع الحقوق محفوظة.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
